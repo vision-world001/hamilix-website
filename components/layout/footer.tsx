@@ -62,7 +62,7 @@ export function Footer() {
       </div>
 
       {/* HAMILIX drawn in fire-coloured points. mt-* sets the space above it. */}
-      <div className="pointer-events-none relative mt-2 select-none px-2 md:mt-4 md:px-4" aria-hidden>
+      <div className="hx-container pointer-events-none relative mt-2 select-none md:mt-4" aria-hidden>
         <PointWordmark className="opacity-90 blur-[0.4px]" />
       </div>
 
