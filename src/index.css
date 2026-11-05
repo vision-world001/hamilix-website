@@ -1,0 +1,394 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #06070a;
+  --surface: #0d0f13;
+  --text: #f4f6f0;
+  --muted: #97a0ac;
+  --accent: #b6f23c;
+  --gold: #f2c14e;
+  --border: #1d2129;
+  --nav-h: 4.5rem;
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+    overflow-x: clip;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(182, 242, 60, 0.4) #0d0f13;
+  }
+
+  html::-webkit-scrollbar {
+    width: 8px;
+  }
+  html::-webkit-scrollbar-track {
+    background: #0d0f13;
+  }
+  html::-webkit-scrollbar-thumb {
+    background: rgba(182, 242, 60, 0.35);
+    border-radius: 999px;
+  }
+
+  body {
+    @apply bg-bg font-sans text-foreground antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    min-height: 100%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: rgba(182, 242, 60, 0.28);
+    color: var(--text);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(182, 242, 60, 0.7);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* ---------- Layout ---------- */
+  .hx-container,
+  .velix-container {
+    @apply mx-auto w-full max-w-site px-5 sm:px-8 lg:px-10;
+  }
+
+  .hx-section {
+    @apply relative py-20 md:py-28 lg:py-32;
+  }
+
+  /* ---------- Typography ---------- */
+  .hx-eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[0.72rem] font-medium uppercase tracking-[0.18em] text-accent;
+  }
+
+  .hx-eyebrow::before {
+    content: '';
+    @apply inline-block h-1.5 w-1.5 rotate-45 bg-current;
+  }
+
+  .hx-eyebrow-gold {
+    @apply text-gold;
+  }
+
+  .hx-display {
+    @apply font-display font-semibold tracking-[-0.035em] text-foreground;
+    font-size: clamp(2.5rem, 5.6vw, 4.6rem);
+    line-height: 0.98;
+  }
+
+  .hx-h1 {
+    @apply font-display font-semibold tracking-[-0.03em] text-foreground;
+    font-size: clamp(2.3rem, 5vw, 4.2rem);
+    line-height: 1.02;
+  }
+
+  .hx-h2 {
+    @apply font-display font-semibold tracking-[-0.03em] text-foreground;
+    font-size: clamp(1.9rem, 3.6vw, 3.1rem);
+    line-height: 1.06;
+  }
+
+  .hx-lead {
+    @apply text-base leading-relaxed text-muted md:text-lg;
+  }
+
+  .hx-gradient-text,
+  .velix-gradient-text {
+    background-image: linear-gradient(100deg, #b6f23c 0%, #d9ef55 45%, #f2c14e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .hx-text-lime {
+    background-image: linear-gradient(100deg, #d6ff7a 0%, #b6f23c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hx-text-gold {
+    background-image: linear-gradient(100deg, #ffe08a 0%, #f2c14e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ---------- Surfaces ---------- */
+  .hx-card,
+  .velix-card {
+    @apply relative rounded-2xl border border-border bg-surface/80 shadow-card transition-all duration-300;
+  }
+
+  .hx-card-hover:hover {
+    @apply -translate-y-0.5 border-border-strong bg-raised/80;
+  }
+
+  /* Gradient hairline border (lime → gold) */
+  .hx-ring-gradient {
+    position: relative;
+  }
+  .hx-ring-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(182, 242, 60, 0.6), rgba(242, 193, 78, 0.15) 40%, rgba(255, 255, 255, 0.04) 60%, rgba(242, 193, 78, 0.5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .hx-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-border bg-white/[0.02] px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.08em] text-muted;
+  }
+
+  .hx-icon-tile {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border bg-raised text-accent;
+  }
+
+  /* ---------- Backgrounds ---------- */
+  .hx-grid-bg,
+  .velix-grid-bg {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 75%);
+  }
+
+  .hx-hex-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='98' viewBox='0 0 56 98'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 32L0 82V66l28 16 28-16v16L28 98z' fill='none' stroke='rgba(255,255,255,0.045)' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 56px 98px;
+  }
+
+  .hx-glow-lime {
+    background: radial-gradient(closest-side, rgba(182, 242, 60, 0.22), transparent);
+  }
+
+  .hx-glow-gold {
+    background: radial-gradient(closest-side, rgba(242, 193, 78, 0.18), transparent);
+  }
+
+  .hx-noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .hx-divider {
+    @apply h-px w-full;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  }
+
+  .hx-marquee-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
+
+  .hx-hex-clip {
+    clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0% 50%);
+  }
+
+  /* ---------- Kinetic / expressive ---------- */
+  .hx-mega {
+    @apply font-display font-bold uppercase leading-[0.85] tracking-[-0.055em];
+    font-size: clamp(4rem, 15vw, 15rem);
+  }
+
+  .hx-giant {
+    @apply font-display font-bold leading-[0.9] tracking-[-0.045em];
+    font-size: clamp(3rem, 9vw, 8.5rem);
+  }
+
+  .hx-big {
+    @apply font-display font-semibold leading-[0.95] tracking-[-0.04em];
+    font-size: clamp(2.2rem, 5.5vw, 4.75rem);
+  }
+
+  .hx-outline-text {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(244, 246, 240, 0.22);
+  }
+
+  .hx-outline-lime {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(182, 242, 60, 0.75);
+  }
+
+  .hx-outline-gold {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(242, 193, 78, 0.75);
+  }
+
+  .hx-spotlight {
+    @apply relative overflow-hidden rounded-3xl border border-border bg-surface/80 transition-colors duration-300;
+    --mx: 50%;
+    --my: 50%;
+    --spot: rgba(182, 242, 60, 0.13);
+    --spot-edge: rgba(182, 242, 60, 0.55);
+  }
+  .hx-spotlight-gold {
+    --spot: rgba(242, 193, 78, 0.12);
+    --spot-edge: rgba(242, 193, 78, 0.55);
+  }
+  .hx-spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s;
+    background: radial-gradient(420px circle at var(--mx) var(--my), var(--spot), transparent 45%);
+  }
+  .hx-spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s;
+    background: radial-gradient(260px circle at var(--mx) var(--my), var(--spot-edge), transparent 60%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  .hx-spotlight:hover::before,
+  .hx-spotlight:hover::after {
+    opacity: 1;
+  }
+
+  .hx-strike {
+    position: relative;
+    display: inline-block;
+  }
+  .hx-strike::after {
+    content: '';
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    top: 47%;
+    height: 0.09em;
+    background: linear-gradient(90deg, #b6f23c, #f2c14e);
+    transform-origin: left;
+    transform: scaleX(var(--strike, 0));
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hx-strike[data-on='true'] {
+    --strike: 1;
+  }
+
+  /* ---------- Legacy aliases (kept for untouched components) ---------- */
+  .velix-section-title {
+    @apply font-display font-semibold tracking-[-0.03em];
+    font-size: clamp(1.9rem, 3.6vw, 3.1rem);
+    line-height: 1.06;
+  }
+  .velix-hero-eyebrow {
+    @apply mb-4 font-mono text-xs uppercase tracking-[0.18em] text-accent;
+  }
+  .velix-hero-title {
+    @apply max-w-3xl font-display text-4xl font-semibold tracking-tight text-foreground md:text-5xl;
+  }
+  .velix-hero-description {
+    @apply mt-4 max-w-3xl text-base leading-relaxed text-muted md:text-lg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Backdrop motion (AI × blockchain motifs) ---------- */
+@keyframes hx-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(14px, -22px) rotate(30deg);
+  }
+}
+
+@keyframes hx-blink {
+  0%,
+  100% {
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes hx-node-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    r: 3.5;
+  }
+  50% {
+    opacity: 1;
+    r: 5;
+  }
+}
+
+@keyframes hx-edge-flow {
+  0%,
+  100% {
+    stroke-opacity: 0.18;
+  }
+  50% {
+    stroke-opacity: 0.75;
+  }
+}
+
+@keyframes hx-dash-move {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+.hx-node {
+  animation: hx-node-pulse 3.2s ease-in-out infinite;
+}
+
+.hx-edge {
+  animation: hx-edge-flow 4.5s ease-in-out infinite;
+}
+
+.hx-dash {
+  animation: hx-dash-move 2.4s linear infinite;
+}
