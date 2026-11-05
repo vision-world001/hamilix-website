@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { JobRoleBadge, getJobRoleNumber } from '@/components/sections/job-role-badge'
 import { cn } from '@/lib/utils'
+import { formatJobMeta } from '@/lib/careers'
 import type { OpenPosition } from '@/lib/content'
 
 type OpenPositionsSectionProps = {
@@ -37,7 +38,7 @@ function JobCard({ job, number }: { job: OpenPosition; number: string }) {
         <h3 className="text-base font-semibold tracking-tight text-foreground transition-colors group-hover:text-accent md:text-lg">
           {job.title}
         </h3>
-        <p className="mt-1 font-mono text-xs text-muted">{job.location}</p>
+        <p className="mt-1 font-mono text-xs text-muted">{formatJobMeta(job)}</p>
       </div>
 
       <ArrowIcon className="h-5 w-5 shrink-0 text-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-accent" />

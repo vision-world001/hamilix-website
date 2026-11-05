@@ -18,7 +18,21 @@ export type EmailTemplateParams = {
   from_phone: string
   from_linkedin: string
   message: string
+  /** Shown as the sender/company in the EmailJS template ({{company_name}}). */
+  company_name?: string
+  /** Optional subject line ({{subject}}). */
+  subject?: string
+  /** Job application details — empty for contact-page messages. */
+  position_title?: string
+  position_id?: string
+  position_team?: string
+  employment_type?: string
+  position_location?: string
+  position_compensation?: string
+  position_url?: string
 }
+
+export const EMAIL_COMPANY_NAME = 'Hamilix Labs'
 
 export function getEmailJSErrorMessage(error: unknown): string {
   if (error && typeof error === 'object' && 'text' in error) {

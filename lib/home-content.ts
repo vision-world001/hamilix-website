@@ -18,7 +18,7 @@ export const MANIFESTO = {
   highlights: ['AI', 'blockchain', 'both', 'think', 'prove', 'scale'],
 } as const
 
-/** The Hamilix verb system — one verb per discipline. */
+/** The Hamilix Labs verb system — one verb per discipline. */
 export const VERBS = [
   {
     verb: 'Think.',
@@ -78,7 +78,7 @@ export const BUILD = {
 } as const
 
 export const PRINCIPLES = {
-  kicker: 'Why Hamilix',
+  kicker: 'Why Hamilix Labs',
   items: [
     { word: 'Ship.', line: 'Production, not prototypes.' },
     { word: 'Secure.', line: 'Security is feature #1.' },
@@ -102,21 +102,21 @@ export const TESTIMONIALS = {
   items: [
     {
       id: 'chen',
-      quote: 'Hamilix cut integration latency with agent routing, retrieval, and observability — our engineering team had confidence before go-live.',
+      quote: 'Hamilix Labs cut integration latency with agent routing, retrieval, and observability — our engineering team had confidence before go-live.',
       name: 'Marcus Chen',
       role: 'CTO, FinLedger',
       image: '/images/testimonials/marcus-chen.jpg',
     },
     {
       id: 'okonkwo',
-      quote: 'Hamilix deployed a private blockchain with instant finality and smart contracts our auditors approved without hesitation.',
+      quote: 'Hamilix Labs deployed a private blockchain with instant finality and smart contracts our auditors approved without hesitation.',
       name: 'Amara Okonkwo',
       role: 'CTO, ChainBridge Capital',
       image: '/images/testimonials/amara-okonkwo.jpg',
     },
     {
       id: 'clubb',
-      quote: 'Hamilix built secure AI pipelines and data orchestration that scaled with us from day one.',
+      quote: 'Hamilix Labs built secure AI pipelines and data orchestration that scaled with us from day one.',
       name: 'Susan Clubb',
       role: 'CEO, Veridian Health',
       image: '/images/testimonials/susan-clubb.jpg',

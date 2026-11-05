@@ -3,6 +3,7 @@ import { JobApplyButton } from '@/components/sections/job-apply-modal'
 import { JobRoleBadge, getJobRoleNumber } from '@/components/sections/job-role-badge'
 import { OtherOpenRoles } from '@/components/sections/other-open-roles'
 import { Section } from '@/components/ui/section'
+import { formatCompensation } from '@/lib/careers'
 import type { OpenPosition } from '@/lib/content'
 import { CAREERS_APPLY, OPEN_POSITIONS } from '@/lib/content'
 
@@ -116,9 +117,31 @@ export function JobDetailContent({ job }: { job: OpenPosition }) {
             {job.title}
           </h1>
           <div className="mt-4 flex flex-wrap gap-2">
-            <MetaPill icon={<LocationIcon />}>{job.location}</MetaPill>
-            <MetaPill icon={<ClockIcon />}>{job.type}</MetaPill>
-            <MetaPill icon={<CompensationIcon />}>{job.compensation}</MetaPill>
+            {job.locations.map((location) => (
+              <MetaPill key={`loc-${location}`} icon={<LocationIcon />}>
+                {location}
+              </MetaPill>
+            ))}
+            {job.engagements.length === 1 ? (
+              <>
+                <MetaPill icon={<ClockIcon />}>{job.engagements[0].type}</MetaPill>
+                <MetaPill icon={<CompensationIcon />}>
+                  {formatCompensation(job.engagements[0].compensation)}
+                </MetaPill>
+              </>
+            ) : (
+              job.engagements.map((engagement) => (
+                <MetaPill key={`eng-${engagement.type}`} icon={<ClockIcon />}>
+                  {engagement.type}
+                  <span className="text-muted/50" aria-hidden>
+                    ·
+                  </span>
+                  <span className="text-foreground/80">
+                    {formatCompensation(engagement.compensation)}
+                  </span>
+                </MetaPill>
+              ))
+            )}
             <MetaPill icon={<TeamIcon />}>{job.team}</MetaPill>
           </div>
         </div>

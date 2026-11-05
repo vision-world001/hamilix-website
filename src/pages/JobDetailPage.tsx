@@ -10,7 +10,7 @@ export function JobDetailPage() {
 
   usePageTitle(
     job?.title ?? 'Careers',
-    job?.summary ?? 'Join Hamilix and build the future of AI and Web3 infrastructure.',
+    job?.summary ?? 'Join Hamilix Labs and build the future of AI and Web3 infrastructure.',
   )
 
   useEffect(() => {

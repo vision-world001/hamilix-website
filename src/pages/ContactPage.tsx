@@ -7,7 +7,7 @@ import { CONTACT_PAGE, FOOTER, SITE } from '@/lib/content'
 import { usePageTitle } from '@/lib/use-page-title'
 
 export function ContactPage() {
-  usePageTitle('Contact', 'Talk to the Hamilix engineering team about your AI or blockchain project.')
+  usePageTitle('Contact', 'Talk to the Hamilix Labs engineering team about your AI or blockchain project.')
 
   return (
     <>
@@ -17,7 +17,7 @@ export function ContactPage() {
         <div className="hx-container relative z-10 pb-14 pt-12 md:pt-16">
           <Reveal>
             <Kicker>{CONTACT_PAGE.hero.eyebrow}</Kicker>
-            <h1 className="sr-only">Contact Hamilix</h1>
+            <h1 className="sr-only">Contact Hamilix Labs</h1>
             <GiantVerb word="HELLO." tone="lime" className="mt-6" />
             <p className="hx-big mt-8" aria-hidden>
               Let&apos;s build something <span className="hx-gradient-text">excellent.</span>

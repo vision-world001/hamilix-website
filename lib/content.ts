@@ -1,11 +1,25 @@
+import type { OpenPosition } from '@/lib/careers'
+
+export type { OpenPosition } from '@/lib/careers'
+
 export const SITE = {
-  name: 'Hamilix',
+  name: 'Hamilix Labs',
   logo: '/images/hamilix-logo.png',
   headerImage: '/images/hamilix-logo.png',
   pageHeroImage: '/images/page-hero-background.png',
-  email: 'hello@hamilix.com',
+  email: 'hello@hamilixlabs.com',
   phone: '+1 747 304 3406',
   phoneHref: 'tel:+17473043406',
+} as const
+
+/**
+ * Temporarily hide contact details across the site (footer + contact page).
+ * The data (SITE.phone, FOOTER.addresses, social links) is kept — set a flag back to `true` to show it again.
+ */
+export const CONTACT_VISIBILITY = {
+  phone: true,
+  location: true,
+  social: true,
 } as const
 
 export const SITE_TAGLINE = 'AI & Blockchain Engineering'
@@ -251,14 +265,15 @@ export const CAREERS_FALLBACK_CTA = {
   cta: { label: 'Get in Touch', href: '/contact' },
 } as const
 
-export const OPEN_POSITIONS = [
+export const OPEN_POSITIONS: readonly OpenPosition[] = [
   {
     id: 'Technical-Advisor',
     title: 'Technical Advisor',
     team: 'Engineering',
-    location: 'Remote / Global',
-    type: 'Part-time',
-    compensation: '$180 ~ $250/hr',
+    locations: ['Remote / Global'],
+    engagements: [
+      { type: 'Part-time', compensation: { min: 180, max: 250, period: 'hour' } },
+    ],
     summary:
       "We're looking for a Technical Advisor with strong expertise in blockchain and Web3 to provide strategic technical guidance across our products and engineering initiatives.",
     about:
@@ -289,9 +304,11 @@ export const OPEN_POSITIONS = [
     id: 'senior-engineering-manager',
     title: 'Senior Engineering Manager',
     team: 'Engineering',
-    location: 'Remote / Global',
-    type: 'Full-time / Part-time',
-    compensation: '$220k – $320k',
+    locations: ['Remote / Global'],
+    engagements: [
+      { type: 'Full-time', compensation: { min: 220000, max: 320000, period: 'year' } },
+      { type: 'Part-time' },
+    ],
     summary:
       "We're looking for a Senior Engineering Manager to lead the delivery of blockchain products and help scale our engineering organization.",
     about:
@@ -321,9 +338,10 @@ export const OPEN_POSITIONS = [
     id: 'senior-blockchain-developer',
     title: 'Senior Blockchain Developer',
     team: 'Engineering',
-    location: 'Remote / Global',
-    type: 'Full-time',
-    compensation: '$180k – $260k',
+    locations: ['Remote / Global'],
+    engagements: [
+      { type: 'Full-time', compensation: { min: 180000, max: 260000, period: 'year' } },
+    ],
     summary:
       "We're looking for a Senior Blockchain Developer to help architect and build the blockchain products that power our clients' and partners' ecosystems.",
     about:
@@ -354,9 +372,11 @@ export const OPEN_POSITIONS = [
     id: 'lead-full-stack-engineer',
     title: 'Lead Full Stack Engineer',
     team: 'Engineering',
-    location: 'Remote / Global',
-    type: 'Full-time / Part-Time',
-    compensation: '$190k – $270k',
+    locations: ['Remote / Global'],
+    engagements: [
+      { type: 'Full-time', compensation: { min: 190000, max: 270000, period: 'year' } },
+      { type: 'Part-time' },
+    ],
     summary:
       'Build end-to-end features across AI agents, APIs, and Web3 integrations for production workloads.',
     about:
@@ -386,9 +406,10 @@ export const OPEN_POSITIONS = [
     id: 'frontend-engineer',
     title: 'Frontend Engineer',
     team: 'Engineering',
-    location: 'Remote / Global',
-    type: 'Full-time',
-    compensation: '$130k – $190k',
+    locations: ['Remote / Global'],
+    engagements: [
+      { type: 'Full-time', compensation: { min: 130000, max: 190000, period: 'year' } },
+    ],
     summary:
       'Craft infrastructure-grade interfaces for dashboards, wallets, and developer tools.',
     about:
@@ -412,9 +433,10 @@ export const OPEN_POSITIONS = [
     id: 'lead-mobile-engineer',
     title: 'Lead Mobile Engineer',
     team: 'Engineering',
-    location: 'Remote / Global',
-    type: 'Full-time',
-    compensation: '$180k – $240k',
+    locations: ['Remote / Global'],
+    engagements: [
+      { type: 'Full-time', compensation: { min: 180000, max: 240000, period: 'year' } },
+    ],
     summary:
       "We're looking for a Lead Mobile Engineer to own the architecture and development of mobile applications across our blockchain and Web3 product portfolio.",
     about:
@@ -444,9 +466,10 @@ export const OPEN_POSITIONS = [
     id: 'Senior-Product-Manager',
     title: 'Senior Product Manager',
     team: 'Product Management',
-    location: 'Remote / Global',
-    type: 'Full-time',
-    compensation: '$190k – $260k',
+    locations: ['Remote / Global'],
+    engagements: [
+      { type: 'Full-time', compensation: { min: 190000, max: 260000, period: 'year' } },
+    ],
     summary:
       "We're looking for a Senior Product Manager to lead the strategy, execution, and growth of blockchain-based products.",
     about:
@@ -460,7 +483,7 @@ export const OPEN_POSITIONS = [
       "Drive successful product launches and monitor performance after release.",
       "Analyze user feedback, market trends, and competitive developments to identify growth opportunities.",
       "Communicate product direction clearly across internal teams and external stakeholders.",
-      "Help shape the long-term product strategy for Hamilix and its clients.",
+      "Help shape the long-term product strategy for Hamilix Labs and its clients.",
 
     ],
     requirements: [
@@ -475,16 +498,14 @@ export const OPEN_POSITIONS = [
   },
 
 
-] as const
-
-export type OpenPosition = (typeof OPEN_POSITIONS)[number]
+]
 
 export function getOpenPositionById(id: string): OpenPosition | undefined {
   return OPEN_POSITIONS.find((position) => position.id === id)
 }
 
 export const CAREERS_APPLY = {
-  email: 'careers@hamilix.com',
+  email: 'careers@hamilixlabs.com',
   prompt: 'Send us your CV and a short note on why this role excites you.',
   buttonLabel: 'Apply Now',
   modalEyebrow: 'Apply for',
@@ -509,7 +530,7 @@ export const CAREERS_INTERVIEW_PROCESS = [
 export const CONTACT_PAGE = {
   hero: {
     eyebrow: 'Contact',
-    title: 'Get in touch with Hamilix',
+    title: 'Get in touch with Hamilix Labs',
     description:
       'Discuss your AI, blockchain, Web3, or crypto infrastructure requirements with our engineering team.',
   },

@@ -1,4 +1,6 @@
 import { SocialLinksRow, type SocialLinkItem } from '@/components/ui/social-links'
+import { CONTACT_VISIBILITY } from '@/lib/content'
+import { cn } from '@/lib/utils'
 
 function HeadsetIcon({ className }: { className?: string }) {
   return (
@@ -37,22 +39,26 @@ export function ContactPanelInfo({
 }: ContactPanelInfoProps) {
   return (
     <div className="flex h-full flex-col border-b border-[#2a2a2e] p-8 md:p-10 lg:border-b-0 lg:border-r lg:p-12">
-      <a href={phoneHref} className="group flex items-center gap-4 transition-opacity hover:opacity-90">
-        <span className="flex h-14 w-14 shrink-0 items-center justify-center text-accent">
-          <HeadsetIcon className="h-10 w-10" />
-        </span>
-        <span className="text-3xl font-semibold tracking-tight text-accent md:text-4xl">{phone}</span>
-      </a>
+      {CONTACT_VISIBILITY.phone ? (
+        <a href={phoneHref} className="group flex items-center gap-4 transition-opacity hover:opacity-90">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center text-accent">
+            <HeadsetIcon className="h-10 w-10" />
+          </span>
+          <span className="text-3xl font-semibold tracking-tight text-accent md:text-4xl">{phone}</span>
+        </a>
+      ) : null}
 
-      <div className="mt-12 space-y-10">
-        <div>
-          <h3 className="text-lg font-semibold text-foreground">Location</h3>
-          <div className="mt-3 space-y-1 text-sm leading-relaxed text-muted md:text-base">
-            {addresses.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
+      <div className={cn('space-y-10', CONTACT_VISIBILITY.phone && 'mt-12')}>
+        {CONTACT_VISIBILITY.location ? (
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">Location</h3>
+            <div className="mt-3 space-y-1 text-sm leading-relaxed text-muted md:text-base">
+              {addresses.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : null}
 
         <div>
           <h3 className="text-lg font-semibold text-foreground">Official Email</h3>
@@ -65,10 +71,12 @@ export function ContactPanelInfo({
         </div>
       </div>
 
-      <div className="mt-auto border-t border-[#2a2a2e]/80 pt-10">
-        <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-muted">Connect</p>
-        <SocialLinksRow links={social} size="lg" />
-      </div>
+      {CONTACT_VISIBILITY.social ? (
+        <div className="mt-auto border-t border-[#2a2a2e]/80 pt-10">
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.14em] text-muted">Connect</p>
+          <SocialLinksRow links={social} size="lg" />
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { FOOTER, SITE, SITE_TAGLINE } from '@/lib/content'
+import { CONTACT_VISIBILITY, FOOTER, SITE, SITE_TAGLINE } from '@/lib/content'
+import { PointWordmark } from '@/components/brand/point-wordmark'
 import { VelixLogo } from '@/components/layout/velix-logo'
 import { SocialLinksRow } from '@/components/ui/social-links'
 
@@ -11,11 +12,13 @@ export function Footer() {
       <div className="hx-glow-lime pointer-events-none absolute -top-48 left-1/2 h-96 w-[60rem] -translate-x-1/2 opacity-40 blur-3xl" aria-hidden />
 
       <div className="hx-container relative">
-        <div className="grid gap-12 py-16 md:py-20 lg:grid-cols-12 lg:gap-10">
+        <div className="grid gap-12 pb-6 pt-16 md:pb-8 md:pt-20 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <VelixLogo imageClassName="h-12 md:h-14" />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted">{FOOTER.blurb}</p>
-            <SocialLinksRow links={FOOTER.social} className="mt-8" />
+            {CONTACT_VISIBILITY.social ? (
+              <SocialLinksRow links={FOOTER.social} className="mt-8" />
+            ) : null}
           </div>
 
           {FOOTER.columns.map((column) => (
@@ -40,26 +43,32 @@ export function Footer() {
             <a href={`mailto:${SITE.email}`} className="mt-5 block text-sm text-foreground transition-colors hover:text-accent">
               {SITE.email}
             </a>
-            <a href={SITE.phoneHref} className="mt-2 block text-sm text-foreground transition-colors hover:text-accent">
-              {SITE.phone}
-            </a>
-            <div className="mt-6 space-y-3">
-              {FOOTER.addresses.map((address) => (
-                <p key={address} className="text-sm leading-relaxed text-muted">
-                  {address}
-                </p>
-              ))}
-            </div>
+            {CONTACT_VISIBILITY.phone ? (
+              <a href={SITE.phoneHref} className="mt-2 block text-sm text-foreground transition-colors hover:text-accent">
+                {SITE.phone}
+              </a>
+            ) : null}
+            {CONTACT_VISIBILITY.location ? (
+              <div className="mt-6 space-y-3">
+                {FOOTER.addresses.map((address) => (
+                  <p key={address} className="text-sm leading-relaxed text-muted">
+                    {address}
+                  </p>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
+      </div>
 
-        <div className="select-none overflow-hidden" aria-hidden>
-          <p className="hx-gradient-text translate-y-[18%] text-center font-display text-[22vw] font-bold leading-[0.8] tracking-[-0.06em] opacity-[0.08] lg:text-[16rem]">
-            HAMILIX
-          </p>
-        </div>
+      {/* HAMILIX drawn in fire-coloured points. mt-* sets the space above it. */}
+      <div className="pointer-events-none relative mt-2 select-none px-2 md:mt-4 md:px-4" aria-hidden>
+        <PointWordmark className="opacity-90 blur-[0.4px]" />
+      </div>
 
-        <div className="flex flex-col gap-3 border-t border-border py-6 text-xs text-subtle md:flex-row md:items-center md:justify-between">
+      {/* Bottom bar: plain, sits below the point wordmark. */}
+      <div className="relative">
+        <div className="hx-container flex flex-col gap-3 py-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
           <p>
             © {year} {SITE.name}. All rights reserved.
           </p>

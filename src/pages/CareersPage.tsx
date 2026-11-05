@@ -17,7 +17,7 @@ import { usePageTitle } from '@/lib/use-page-title'
 const CULTURE_ICONS: IconName[] = ['rocket', 'sparkles', 'code', 'globe']
 
 export function CareersPage() {
-  usePageTitle('Careers', 'Join Hamilix and build excellent AI and blockchain products with a remote-first engineering team.')
+  usePageTitle('Careers', 'Join Hamilix Labs and build excellent AI and blockchain products with a remote-first engineering team.')
 
   const teams = [...new Set(OPEN_POSITIONS.map((job) => job.team))]
   const count: number = OPEN_POSITIONS.length
@@ -30,7 +30,7 @@ export function CareersPage() {
         <div className="hx-container relative z-10 pb-20 pt-12 md:pt-16">
           <Reveal>
             <Kicker>Careers</Kicker>
-            <h1 className="sr-only">Careers at Hamilix</h1>
+            <h1 className="sr-only">Careers at Hamilix Labs</h1>
             <GiantVerb word="JOIN." tone="lime" className="mt-6" />
           </Reveal>
           <Reveal delay={0.1} className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">

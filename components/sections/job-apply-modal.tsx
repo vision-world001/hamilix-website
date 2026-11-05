@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { AnimatePresence, m } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { MOTION_EASE } from '@/components/motion/tokens'
+import { formatCompensation } from '@/lib/careers'
 import { CAREERS_APPLY } from '@/lib/content'
 import type { OpenPosition } from '@/lib/content'
 import {
@@ -121,6 +122,20 @@ type FormValues = {
   phoneNumber: string
   portfolio: string
   whyRole: string
+  employmentType: string
+  location: string
+}
+
+function initialFormValues(job: OpenPosition): FormValues {
+  return {
+    fullName: '',
+    email: '',
+    phoneNumber: '',
+    portfolio: '',
+    whyRole: '',
+    employmentType: job.engagements.length === 1 ? job.engagements[0].type : '',
+    location: job.locations.length === 1 ? job.locations[0] : '',
+  }
 }
 
 type FormErrors = Partial<Record<keyof FormValues | 'resume', string>>
@@ -301,13 +316,7 @@ function ApplicationFormModal({
   onNotify: (notification: ToastNotification) => void
 }) {
   const resumeInputId = useId()
-  const [values, setValues] = useState<FormValues>({
-    fullName: '',
-    email: '',
-    phoneNumber: '',
-    portfolio: '',
-    whyRole: '',
-  })
+  const [values, setValues] = useState<FormValues>(() => initialFormValues(job))
   const [resume, setResume] = useState<File | null>(null)
   const [errors, setErrors] = useState<FormErrors>({})
   const [submitting, setSubmitting] = useState(false)
@@ -343,18 +352,14 @@ function ApplicationFormModal({
     if (portfolioError) next.portfolio = portfolioError
     if (whyError) next.whyRole = whyError
     if (resumeError) next.resume = resumeError
+    if (!values.employmentType) next.employmentType = 'Please choose an employment type.'
+    if (!values.location) next.location = 'Please choose your preferred location.'
 
     return next
   }
 
   function resetForm() {
-    setValues({
-      fullName: '',
-      email: '',
-      phoneNumber: '',
-      portfolio: '',
-      whyRole: '',
-    })
+    setValues(initialFormValues(job))
     setResume(null)
     setErrors({})
     if (fileInputRef.current) fileInputRef.current.value = ''
@@ -385,14 +390,14 @@ function ApplicationFormModal({
       await sendJobApplicationEmail(
         buildJobApplicationEmailParams(
           { ...values, portfolio: linkedinUrl },
-          job.title,
+          job,
         ),
       )
       resetForm()
       onNotify({
         type: 'success',
         title: CAREERS_APPLY.successTitle,
-        message: `${CAREERS_APPLY.successMessageBefore} ${job.title}. ${CAREERS_APPLY.successMessageAfter}`,
+        message: `${CAREERS_APPLY.successMessageBefore} ${job.title} (${values.employmentType}). ${CAREERS_APPLY.successMessageAfter}`,
       })
       closeTimerRef.current = window.setTimeout(() => {
         onClose()
@@ -431,6 +436,83 @@ function ApplicationFormModal({
           noValidate
         >
           <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-6 py-5 md:px-7">
+            {job.engagements.length > 1 ? (
+              <fieldset>
+                <legend className="text-sm text-muted">
+                  Employment type <span className="text-red-400">*</span>
+                </legend>
+                <div
+                  className="mt-2 grid gap-2 sm:grid-cols-2"
+                  role="radiogroup"
+                  aria-describedby={errors.employmentType ? 'apply-type-error' : undefined}
+                >
+                  {job.engagements.map((engagement) => {
+                    const selected = values.employmentType === engagement.type
+                    return (
+                      <label
+                        key={engagement.type}
+                        className={cn(
+                          'flex cursor-pointer flex-col rounded-lg border bg-[#141416] px-4 py-3 transition-colors',
+                          selected
+                            ? 'border-accent/60 ring-2 ring-accent/30'
+                            : errors.employmentType
+                              ? 'border-red-400/70'
+                              : 'border-border hover:border-accent/30',
+                        )}
+                      >
+                        <input
+                          type="radio"
+                          name="employmentType"
+                          value={engagement.type}
+                          checked={selected}
+                          onChange={() => {
+                            setValues((current) => ({ ...current, employmentType: engagement.type }))
+                            setErrors((current) => ({ ...current, employmentType: undefined }))
+                          }}
+                          className="sr-only"
+                        />
+                        <span className="text-sm font-medium text-foreground">{engagement.type}</span>
+                        <span className="mt-0.5 font-mono text-xs text-muted">
+                          {formatCompensation(engagement.compensation)}
+                        </span>
+                      </label>
+                    )
+                  })}
+                </div>
+                <FieldError id="apply-type-error" message={errors.employmentType} />
+              </fieldset>
+            ) : null}
+
+            {job.locations.length > 1 ? (
+              <div>
+                <label htmlFor="apply-location" className="text-sm text-muted">
+                  Preferred location <span className="text-red-400">*</span>
+                </label>
+                <select
+                  id="apply-location"
+                  name="location"
+                  value={values.location}
+                  onChange={(event) => {
+                    setValues((current) => ({ ...current, location: event.target.value }))
+                    if (errors.location) setErrors((current) => ({ ...current, location: undefined }))
+                  }}
+                  className={inputClass(Boolean(errors.location))}
+                  aria-invalid={Boolean(errors.location)}
+                  aria-describedby={errors.location ? 'apply-location-error' : undefined}
+                >
+                  <option value="" disabled>
+                    Select a location
+                  </option>
+                  {job.locations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+                <FieldError id="apply-location-error" message={errors.location} />
+              </div>
+            ) : null}
+
             <div>
               <label htmlFor="apply-full-name" className="text-sm text-muted">
                 Full Name <span className="text-red-400">*</span>

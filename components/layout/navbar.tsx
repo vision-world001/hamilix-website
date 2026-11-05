@@ -12,15 +12,7 @@ function isActive(pathname: string, href: string) {
 
 export function Navbar() {
   const { pathname } = useLocation()
-  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     setOpen(false)
@@ -36,10 +28,9 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-all duration-300',
-        scrolled || open
-          ? 'border-b border-border bg-bg/75 backdrop-blur-xl'
-          : 'border-b border-transparent bg-transparent',
+        'fixed inset-x-0 top-0 z-50 bg-transparent transition-colors duration-300',
+        // Solid background only while the mobile menu is open, so the menu stays readable.
+        open && 'bg-bg lg:bg-transparent',
       )}
     >
       <div className="hx-container flex h-[4.5rem] items-center justify-between gap-6">

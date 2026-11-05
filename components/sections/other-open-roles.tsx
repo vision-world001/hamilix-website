@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { JobRoleBadge, getJobRoleNumber } from '@/components/sections/job-role-badge'
+import { formatJobMeta } from '@/lib/careers'
 import type { OpenPosition } from '@/lib/content'
 
 type OtherOpenRolesProps = {
@@ -43,7 +44,7 @@ export function OtherOpenRoles({ positions, currentJobId }: OtherOpenRolesProps)
               <h3 className="text-sm font-semibold text-foreground transition-colors group-hover:text-accent md:text-base">
                 {job.title}
               </h3>
-              <p className="mt-1 font-mono text-xs text-muted">{job.location}</p>
+              <p className="mt-1 font-mono text-xs text-muted">{formatJobMeta(job)}</p>
             </div>
             <ArrowIcon className="h-4 w-4 shrink-0 text-muted transition-all group-hover:translate-x-0.5 group-hover:text-accent" />
           </Link>
